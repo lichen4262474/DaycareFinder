@@ -1,0 +1,38 @@
+<% layout("./layout/BoilerPlate") %>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+      <img
+        src="<%= daycare.image  %>"
+        alt="image of daycare"
+        class="card-img-top"
+      />
+      <div class="card-body">
+        <h5 class="card-title"><%= daycare.title %></h5>
+        <p class="card-text"><%= daycare.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted"><%= daycare.location %></li>
+        <li class="list-group-item">
+          Infant:<%= daycare.price[0] %> &nbspToddler: <%= daycare.price[1] %>
+          &nbspThrees:<%= daycare.price[2] %> &nbspPre-k:<%= daycare.price[3] %>
+        </li>
+      </ul>
+      <div class="card-body">
+        <a
+          class="card-link btn btn-warning"
+          href="/daycares/<%= daycare.id%>/edit"
+          >edit</a
+        >
+        <form
+          class="d-inline"
+          action="/daycares/<%= daycare.id %>?_method=delete"
+          method="post"
+        >
+          <button class="btn btn-danger">delete</button>
+        </form>
+      </div>
+      <div class="card-footer text-muted">2 days ago</div>
+    </div>
+  </div>
+</div>

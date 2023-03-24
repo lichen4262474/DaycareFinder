@@ -1,0 +1,102 @@
+<% layout("./layout/BoilerPlate") %>
+<div class="row">
+  <h1 class="text-center">Edit Daycare <%=daycare.title %></h1>
+  <div class="col-6 offset-3">
+    <form action="/daycares/<%= daycare.id  %>?_method=put" method="post">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          id="title"
+          name="daycare[title]"
+          value="<%= daycare.title %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input
+          class="form-control"
+          type="text"
+          id="location"
+          name="daycare[location]"
+          value="<%=daycare.location  %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image URL</label>
+        <input
+          class="form-control"
+          type="text"
+          id="image"
+          name="daycare[image]"
+          value="<%=daycare.image  %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="daycare[description]"
+          rows="5"
+        >
+        <%= daycare.description%>
+      </textarea
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="infant-label">Infant:&nbsp</span>
+          <input
+            class="form-control"
+            type="text"
+            id="infant-price"
+            name="daycare[price][]"
+            area-label="infant-label"
+            value="<%=daycare.price[0]  %>"
+          />
+          <span class="input-group-text" id="toddler-label">Toddler: </span>
+          <input
+            class="form-control"
+            type="text"
+            id="toddler-price"
+            name="daycare[price][]"
+            area-label="toddler-label"
+            value="<%=daycare.price[1]  %>"
+          />
+        </div>
+        <div class="input-group mt-3">
+          <span class="input-group-text" id="twos-label">Threes: </span>
+          <input
+            class="form-control"
+            type="text"
+            id="threes-price"
+            name="daycare[price][]"
+            area-label="threes-label"
+            value="<%=daycare.price[2]  %>"
+          />
+          <span class="input-group-text" id="prek-label"
+            >Pre-K:&nbsp&nbsp&nbsp</span
+          >
+          <input
+            class="form-control"
+            type="text"
+            id="prek-price"
+            name="daycare[price][]"
+            area-label="prek-label"
+            value="<%=daycare.price[3]  %>"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <button class="btn btn-success">update daycare</button>
+      </div>
+    </form>
+    <a href="/daycares/<%= daycare.id %>"> back to daycare</a>
+    <a href="/daycares">All Daycare</a>
+  </div>
+</div>
