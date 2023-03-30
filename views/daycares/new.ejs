@@ -2,7 +2,7 @@
 <div class="row">
   <h1 class="text-center">New Daycare</h1>
   <div class="col-6 offset-3">
-    <form action="/daycares" method="post">
+    <form action="/daycares" method="post" class="validated-form" novalidate>
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -10,6 +10,7 @@
           type="text"
           id="title"
           name="daycare[title]"
+          required
         />
       </div>
       <div class="mb-3">
@@ -19,6 +20,8 @@
           type="text"
           id="location"
           name="daycare[location]"
+          required
+
         />
       </div>
       <div class="mb-3">
@@ -28,6 +31,8 @@
           type="text"
           id="image"
           name="daycare[image]"
+          required
+
         />
       </div>
       <div class="mb-3">
@@ -37,6 +42,8 @@
           type="text"
           id="description"
           name="daycare[description]"
+          required
+
         /></textarea>
       </div>
       <div class="mb-3">
@@ -50,6 +57,7 @@
           name="daycare[price][]"
           area-label="infant-label"
           placeholder="1000/month"
+          required
         />
         <span class="input-group-text" id="toddler-label">Toddler: </span>
         <input
@@ -59,6 +67,7 @@
           name="daycare[price][]"
           area-label="toddler-label"
           placeholder="1000/month"
+          required
         />
       </div>
       <div class="input-group mt-3">
@@ -70,6 +79,7 @@
           name="daycare[price][]"
           area-label="threes-label"
           placeholder="1000/month"
+          required
         />
         <span class="input-group-text" id="prek-label">Pre-K:&nbsp&nbsp&nbsp</span>
         <input
@@ -79,6 +89,7 @@
           name="daycare[price][]"
           area-label="prek-label"
           placeholder="1000/month"
+          required
         />
       </div>
       </div>

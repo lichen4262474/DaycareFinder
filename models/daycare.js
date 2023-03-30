@@ -5,8 +5,13 @@ const DaycareSchema = new Schema({
   price: [String],
   description: String,
   location: String,
-  capacity: Number,
   image: String,
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Daycare", DaycareSchema);

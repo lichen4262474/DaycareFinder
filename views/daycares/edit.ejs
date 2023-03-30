@@ -2,7 +2,12 @@
 <div class="row">
   <h1 class="text-center">Edit Daycare <%=daycare.title %></h1>
   <div class="col-6 offset-3">
-    <form action="/daycares/<%= daycare.id  %>?_method=put" method="post">
+    <form
+      action="/daycares/<%= daycare.id  %>?_method=put"
+      method="post"
+      novalidate
+      class="validated-form"
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -11,6 +16,7 @@
           id="title"
           name="daycare[title]"
           value="<%= daycare.title %>"
+          required
         />
       </div>
       <div class="mb-3">
@@ -21,6 +27,7 @@
           id="location"
           name="daycare[location]"
           value="<%=daycare.location  %>"
+          required
         />
       </div>
       <div class="mb-3">
@@ -31,6 +38,7 @@
           id="image"
           name="daycare[image]"
           value="<%=daycare.image  %>"
+          required
         />
       </div>
       <div class="mb-3">
@@ -41,6 +49,7 @@
           id="description"
           name="daycare[description]"
           rows="5"
+          required
         >
         <%= daycare.description%>
       </textarea
@@ -57,6 +66,7 @@
             name="daycare[price][]"
             area-label="infant-label"
             value="<%=daycare.price[0]  %>"
+            required
           />
           <span class="input-group-text" id="toddler-label">Toddler: </span>
           <input
@@ -66,6 +76,7 @@
             name="daycare[price][]"
             area-label="toddler-label"
             value="<%=daycare.price[1]  %>"
+            required
           />
         </div>
         <div class="input-group mt-3">
@@ -77,6 +88,7 @@
             name="daycare[price][]"
             area-label="threes-label"
             value="<%=daycare.price[2]  %>"
+            required
           />
           <span class="input-group-text" id="prek-label"
             >Pre-K:&nbsp&nbsp&nbsp</span
@@ -88,6 +100,7 @@
             name="daycare[price][]"
             area-label="prek-label"
             value="<%=daycare.price[3]  %>"
+            required
           />
         </div>
       </div>
