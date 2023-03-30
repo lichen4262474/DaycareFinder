@@ -21,12 +21,7 @@ const seedDB = async () => {
       image: "http://source.unsplash.com/collection/1641910",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      price: [
-        price + "/month",
-        price + "/month",
-        price + "/month",
-        price + "/month",
-      ],
+      price: [price, price, price, price],
     });
     await daycare.save();
   }

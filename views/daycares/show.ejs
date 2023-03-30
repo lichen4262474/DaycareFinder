@@ -1,6 +1,6 @@
 <% layout("./layout/BoilerPlate") %>
 <div class="row">
-  <div class="col-6 offset-3">
+  <div class="col-6">
     <div class="card mb-3">
       <img
         src="<%= daycare.image  %>"
@@ -14,8 +14,9 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted"><%= daycare.location %></li>
         <li class="list-group-item">
-          Infant:<%= daycare.price[0] %> &nbspToddler: <%= daycare.price[1] %>
-          &nbspThrees:<%= daycare.price[2] %> &nbspPre-k:<%= daycare.price[3] %>
+          Infant:<%= daycare.price[0] %>/month &nbspToddler: <%=
+          daycare.price[1] %>/month &nbspThrees:<%= daycare.price[2] %>/month
+          &nbspPre-k:<%= daycare.price[3] %>/month
         </li>
       </ul>
       <div class="card-body">
@@ -34,6 +35,8 @@
       </div>
       <div class="card-footer text-muted">2 days ago</div>
     </div>
+  </div>
+  <div class="col-6">
     <h2>Leave a review</h2>
     <form
       class="mb-3 validated-form"
@@ -67,9 +70,17 @@
       <button class="btn btn-success">Submit</button>
     </form>
     <% for(let review of daycare.reviews){ %>
-    <div class="mb-3">
-      <p>Rating: <%= review.rating %></p>
-      <p>Review: <%= review.body %></p>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Rating: <%= review.rating %></h5>
+        <p class="card-text">Review: <%= review.body %></p>
+        <form
+          action="/daycares/<%= daycare.id  %>/reviews/<%= review.id  %>?_method=delete"
+          method="post"
+        >
+          <button class="btn btn-sm btn-danger">delete</button>
+        </form>
+      </div>
     </div>
     <% } %>
   </div>

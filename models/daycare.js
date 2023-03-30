@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Review = require("./review");
 const DaycareSchema = new Schema({
   title: String,
-  price: [String],
+  price: [Number],
   description: String,
   location: String,
   image: String,
@@ -13,5 +14,13 @@ const DaycareSchema = new Schema({
     },
   ],
 });
-
+DaycareSchema.post("findOneAndDelete", async (doc) => {
+  if (doc) {
+    await Review.deleteMany({
+      id: {
+        $in: doc.reviews,
+      },
+    });
+  }
+});
 module.exports = mongoose.model("Daycare", DaycareSchema);
