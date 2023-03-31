@@ -5,6 +5,7 @@ const ExpressError = require("../utils/ExpressError");
 const Daycare = require("../models/daycare");
 const Review = require("../models/review");
 const { reviewsSchema } = require("../schemas.js");
+const isLogIn = require("../middleware");
 
 const validateReview = (req, res, next) => {
   const { error } = reviewsSchema.validate(req.body);
@@ -18,6 +19,7 @@ const validateReview = (req, res, next) => {
 
 router.post(
   "/",
+  isLogIn,
   validateReview,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -32,6 +34,7 @@ router.post(
 
 router.delete(
   "/:reviewId",
+  isLogIn,
   catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Daycare.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });

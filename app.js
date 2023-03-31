@@ -10,11 +10,14 @@ const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const { daycareSchema, reviewsSchema } = require("./schemas.js");
 const Review = require("./models/review");
-const daycares = require("./routes/daycare");
-const reviews = require("./routes/review");
+const daycaresRoutes = require("./routes/daycare");
+const reviewsRoutes = require("./routes/review");
+const userRoutes = require("./routes/user");
 const session = require("express-session");
 const flash = require("connect-flash");
-
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user");
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/daycare-finder");
@@ -30,25 +33,34 @@ app.use(express.static(path.join(__dirname, "public")));
 const sessionConfig = {
   secret: "secret",
   resave: false,
-  saveUnintialized: true,
+  saveUninitialized: true,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
+
 app.use(session(sessionConfig));
 app.use(flash());
 app.use((req, res, next) => {
+  res.locals.currentUser = req.session?.passport?.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-app.use("/daycares", daycares);
-app.use("/daycares/:id/reviews", reviews);
+app.use("/daycares", daycaresRoutes);
+app.use("/daycares/:id/reviews", reviewsRoutes);
+app.use("/", userRoutes);
 
 app.listen(8080, () => console.log("Listening at port 8080"));
+
 app.get("/", (req, res) => {
   res.render("home");
 });
