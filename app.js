@@ -43,17 +43,20 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
-app.use((req, res, next) => {
-  res.locals.currentUser = req.session?.passport?.user;
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+app.use((req, res, next) => {
+  //console.log(req.session?.passport?.user);
+  //res.locals.currentUser = req.session?.passport?.user;
+  console.log(req.user);
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 app.use("/daycares", daycaresRoutes);
 app.use("/daycares/:id/reviews", reviewsRoutes);

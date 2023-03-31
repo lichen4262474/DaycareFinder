@@ -39,6 +39,7 @@ router.post(
   catchAsync(async (req, res) => {
     // if (!req.body.daycare) throw new ExpressError("Invalid input data", 400);
     const daycare = new Daycare(req.body.daycare);
+    daycare.author = req.user;
     await daycare.save();
     req.flash("success", "Successfully add a new daycare.");
     res.redirect("/daycares/" + daycare.id);
@@ -63,7 +64,9 @@ router.get(
   isLogIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const daycare = await Daycare.findById(id);
+    const daycare = await Daycare.findById(id)
+      .populate("reviews")
+      .populate("author");
     if (!daycare) {
       req.flash("error", "Can not find the daycare");
       return res.redirect("/daycares");
