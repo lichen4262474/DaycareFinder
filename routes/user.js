@@ -50,30 +50,6 @@ router.post(
   }
 );
 
-// router.post("/login", function (res, req, next) {
-//   passport.authenticate(
-//     "local",
-//     {
-//       failureFlash: true,
-//       failureRedirect: "/login",
-//       keepSessionInfo: true,
-//     },
-//     (err, user, info, status) => {
-//       //console.log(res);
-//       if (user) {
-//         console.log("ttt");
-//         let redirectUrl = "/daycares";
-//         if (req.session.returnTo && !req.session.returnTo.includes("reviews")) {
-//           redirectUrl = req.session.returnTo;
-//         }
-//         req.flash("success", "welcome back");
-//         delete req.session.returnTo;
-//         res.redirect(redirectUrl);
-//       }
-//     }
-//   )(res, req, next);
-// });
-
 router.get("/logout", (req, res) => {
   req.logout(function (err) {
     if (err) {

@@ -3,18 +3,8 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const Daycare = require("../models/daycare");
-const { daycareSchema } = require("../schemas.js");
-const isLogIn = require("../middleware");
 
-const validateDaycare = (req, res, next) => {
-  const { error } = daycareSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+const { isLogIn, isAuthor, validateDaycare } = require("../middleware");
 
 router.get(
   "/",
@@ -39,7 +29,7 @@ router.post(
   catchAsync(async (req, res) => {
     // if (!req.body.daycare) throw new ExpressError("Invalid input data", 400);
     const daycare = new Daycare(req.body.daycare);
-    daycare.author = req.user;
+    daycare.author = req.user._id;
     await daycare.save();
     req.flash("success", "Successfully add a new daycare.");
     res.redirect("/daycares/" + daycare.id);
@@ -50,7 +40,12 @@ router.get(
   "/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const daycare = await Daycare.findById(id).populate("reviews");
+    const daycare = await Daycare.findById(id).populate({
+      path: "reviews",
+      populate: {
+        path: "author",
+      },
+    });
     if (!daycare) {
       req.flash("error", "Can not find the daycare");
       return res.redirect("/daycares");
@@ -62,11 +57,10 @@ router.get(
 router.get(
   "/:id/edit",
   isLogIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const daycare = await Daycare.findById(id)
-      .populate("reviews")
-      .populate("author");
+    const daycare = await Daycare.findById(id);
     if (!daycare) {
       req.flash("error", "Can not find the daycare");
       return res.redirect("/daycares");
@@ -78,12 +72,14 @@ router.get(
 router.put(
   "/:id",
   isLogIn,
+  isAuthor,
   validateDaycare,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const daycare = await Daycare.findByIdAndUpdate(id, {
       ...req.body.daycare,
     });
+    req.flash("success", "successfully updated!");
     res.redirect("/daycares/" + daycare.id);
   })
 );
@@ -91,9 +87,11 @@ router.put(
 router.delete(
   "/:id",
   isLogIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const daycare = await Daycare.findByIdAndDelete(id);
+    req.flash("success", "successfully deleted.");
     res.redirect("/daycares");
   })
 );
