@@ -6,33 +6,18 @@ const Daycare = require("../models/daycare");
 const Review = require("../models/review");
 const { reviewsSchema, daycareSchema } = require("../schemas.js");
 const { isLogIn, validateReview, isReviewAuthor } = require("../middleware");
-
+const reviewController = require("../controllers/review-controller");
 router.post(
   "/",
   isLogIn,
   validateReview,
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const daycare = await Daycare.findById(id);
-    const review = new Review(req.body.review);
-    review.author = req.user.id;
-    daycare.reviews.push(review);
-    await review.save();
-    await daycare.save();
-    res.redirect("/daycares/" + daycare.id);
-  })
+  catchAsync(reviewController.createReview)
 );
-
 router.delete(
   "/:reviewId",
   isLogIn,
   isReviewAuthor,
-  catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Daycare.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect("/daycares/" + id);
-  })
+  catchAsync(reviewController.deleteReview)
 );
 
 module.exports = router;
