@@ -19,10 +19,19 @@ const seedDB = async () => {
       author: "6426fa22099fcc57d6139ab0",
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
-      image: "http://source.unsplash.com/collection/1641910",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       price: [price, price, price, price],
+      image: [
+        {
+          url: "https://res.cloudinary.com/dpvvvxzgt/image/upload/v1680540887/DaycareFinder/bbc-creative-1w20Cysy1cg-unsplash_ki13mo.jpg",
+          filename: "image1 of daycare",
+        },
+        {
+          url: "https://res.cloudinary.com/dpvvvxzgt/image/upload/v1680540887/DaycareFinder/gautam-arora-OVDtgUhUPBY-unsplash_sdej7p.jpg",
+          filename: "image2 of daycare",
+        },
+      ],
     });
     await daycare.save();
   }

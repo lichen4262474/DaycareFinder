@@ -4,9 +4,10 @@ module.exports.daycareSchema = Joi.object({
     title: Joi.string().required(),
     location: Joi.string().required(),
     price: [Joi.array().items(Joi.number()).required()],
-    image: Joi.string().required(),
+    // image: Joi.string().required(),
     description: Joi.string().required(),
   }).required(),
+  deleteImages: Joi.array(),
 });
 
 module.exports.reviewsSchema = Joi.object({

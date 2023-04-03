@@ -1,5 +1,7 @@
 const { model } = require("mongoose");
 const Daycare = require("../models/daycare");
+const { cloudinary } = require("../cloudinary");
+
 module.exports.index = async (req, res) => {
   const daycares = await Daycare.find({});
   res.render("daycares/index", { daycares });
@@ -10,8 +12,13 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createDaycare = async (req, res) => {
   // if (!req.body.daycare) throw new ExpressError("Invalid input data", 400);
   const daycare = new Daycare(req.body.daycare);
+  daycare.image = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }));
   daycare.author = req.user._id;
   await daycare.save();
+  console.log(daycare);
   req.flash("success", "Successfully add a new daycare.");
   res.redirect("/daycares/" + daycare.id);
 };
@@ -43,6 +50,20 @@ module.exports.updateDaycare = async (req, res) => {
   const daycare = await Daycare.findByIdAndUpdate(id, {
     ...req.body.daycare,
   });
+  const images = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }));
+  daycare.image.push(...images);
+  await daycare.save();
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename);
+    }
+    await daycare.updateOne({
+      $pull: { image: { filename: { $in: req.body.deleteImages } } },
+    });
+  }
   req.flash("success", "successfully updated!");
   res.redirect("/daycares/" + daycare.id);
 };
