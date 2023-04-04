@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/css/stars.css" />
 <div class="row">
   <div class="col-6">
-    <div id="map" style="width:400px; height:300px;"></div>
+   
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% daycare.image.forEach((img, i)=>{ %>
@@ -55,8 +55,10 @@
       <div class="card-footer text-muted">2 days ago</div>
     </div>
   </div>
+  
 
   <div class="col-6">
+    <div id='map' ></div>
     <% if(currentUser){%>
     <h2>Leave a review</h2>
     <form

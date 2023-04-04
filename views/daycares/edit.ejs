@@ -1,7 +1,7 @@
 <% layout("./layout/BoilerPlate") %>
 <div class="row">
   <h1 class="text-center">Edit Daycare <%=daycare.title %></h1>
-  <div class="col-6 offset-3">
+  <div class="col-md-6 offset-md-3">
     <form
       action="/daycares/<%= daycare.id  %>?_method=put"
       method="post"
