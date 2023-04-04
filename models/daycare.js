@@ -15,6 +15,17 @@ const DaycareSchema = new Schema({
   price: [Number],
   description: String,
   location: String,
+  geometry: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ["Point"], // 'location.type' must be 'Point'
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
   image: [ImageSchema],
   author: {
     type: Schema.Types.ObjectId,

@@ -22,6 +22,13 @@ const seedDB = async () => {
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       price: [price, price, price, price],
+      geometry: {
+        type: "Point",
+        coordinates: [
+          cities[random1000].longitude,
+          cities[random1000].latitude,
+        ],
+      },
       image: [
         {
           url: "https://res.cloudinary.com/dpvvvxzgt/image/upload/v1680540887/DaycareFinder/bbc-creative-1w20Cysy1cg-unsplash_ki13mo.jpg",

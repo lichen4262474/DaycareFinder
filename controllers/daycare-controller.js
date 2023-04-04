@@ -1,6 +1,8 @@
 const { model } = require("mongoose");
 const Daycare = require("../models/daycare");
 const { cloudinary } = require("../cloudinary");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocoder = mbxGeocoding({ accessToken: process.env.mapbox_token });
 
 module.exports.index = async (req, res) => {
   const daycares = await Daycare.find({});
@@ -11,7 +13,14 @@ module.exports.renderNewForm = (req, res) => {
 };
 module.exports.createDaycare = async (req, res) => {
   // if (!req.body.daycare) throw new ExpressError("Invalid input data", 400);
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.daycare.location,
+      limit: 1,
+    })
+    .send();
   const daycare = new Daycare(req.body.daycare);
+  daycare.geometry = geoData.body.features[0].geometry;
   daycare.image = req.files.map((f) => ({
     url: f.path,
     filename: f.filename,

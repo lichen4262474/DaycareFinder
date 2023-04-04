@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="/css/stars.css" />
 <div class="row">
   <div class="col-6">
+    <div id="map" style="width:400px; height:300px;"></div>
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% daycare.image.forEach((img, i)=>{ %>
@@ -110,3 +111,23 @@
     <% } %>
   </div>
 </div>
+<script>
+  function ObjectId(id) { };
+  	mapboxgl.accessToken = "<%= process.env.mapbox_token %>";
+    const daycare = <%- daycare %>;
+  const map = new mapboxgl.Map({
+  container: 'map', 
+  style: 'mapbox://styles/mapbox/streets-v11', // style URL
+  center: daycare.geometry.coordinates, // starting position [lng, lat]
+  zoom: 9 // starting zoom
+});
+new mapboxgl.Marker()
+    .setLngLat(daycare.geometry.coordinates)
+    .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+            .setHTML(
+                "<h3>${daycare.title}</h3><p>${daycare.location}</p>"
+            )
+    )
+    .addTo(map)
+</script>
