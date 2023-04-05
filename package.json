@@ -1,4 +1,9 @@
 {
+  "name": "daycarefinder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "@mapbox/mapbox-sdk": "^0.15.0",
     "body-parser": "^1.20.2",

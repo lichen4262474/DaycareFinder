@@ -78,8 +78,6 @@ app.use("/daycares", daycaresRoutes);
 app.use("/daycares/:id/reviews", reviewsRoutes);
 app.use("/", userRoutes);
 
-app.listen(8080, () => console.log("Listening at port 8080"));
-
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -95,3 +93,5 @@ app.use((error, req, res, next) => {
   }
   res.status(statusCode).render("error", { error });
 });
+const port = process.env.PORT || 8080;
+app.listen(port, () => console.log("Listening at port " + port));
